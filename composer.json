@@ -26,7 +26,7 @@
     "ext-ctype": "*",
     "ext-iconv": "*",
     "doctrine/dbal": "^3||^4",
-    "doctrine/doctrine-bundle": "^2.11",
+    "doctrine/doctrine-bundle": "^2.13",
     "doctrine/orm": "^3.0||^4.0",
     "dunglas/doctrine-json-odm": "^1.4",
     "symfony/console": "7.2.*",
@@ -46,14 +46,16 @@
     "phpstan/phpstan": "*",
     "phpstan/phpstan-doctrine": "*",
     "phpstan/phpstan-symfony": "*",
-    "phpunit/phpunit": "<10.0",
     "rector/rector": "*"
   },
   "suggest": {
+    "nicolas-joubert/grabit-front-feed-bundle": "Atom feed frontend for GrabitBundle.",
+    "nicolas-joubert/grabit-admin-sonata-bundle": "Sonata Admin for GrabitBundle."
   },
   "config": {
     "allow-plugins": {
       "php-http/discovery": true,
+      "phpstan/extension-installer": true,
       "symfony/flex": true,
       "symfony/runtime": true
     },

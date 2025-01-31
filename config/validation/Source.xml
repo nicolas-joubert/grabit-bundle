@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
+    <class name="NicolasJoubert\GrabitBundle\Model\Source">
+        <property name="label">
+            <constraint name="NotBlank" />
+        </property>
+        <property name="urls">
+            <constraint name="NotBlank" />
+        </property>
+        <property name="template">
+            <constraint name="NotBlank" />
+        </property>
+    </class>
+</constraint-mapping>

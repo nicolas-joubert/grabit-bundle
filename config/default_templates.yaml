@@ -1,0 +1,38 @@
+grabit:
+    templates:
+        symfony_blog: # https://feeds.feedburner.com/symfony/blog
+            container: 'channel item'
+            contents:
+                unique: 'guid'
+                title: 'title'
+                description: 'description'
+                link:
+                    type: 'text'
+                    filter: 'link'
+                publicationDate: 'pubDate'
+        symfony_ux_blog: # https://ux.symfony.com/changelog
+            container: 'main article'
+            contents:
+                unique:
+                    extract: 'id'
+                title: 'h2'
+                description: '.ChangelogItem__Text'
+                link: '.ChangelogItem__Version'
+                publicationDate: '.ChangelogItem__Date span'
+        sylius_blog: # https://sylius.com/blog/
+            container: 'article.tease-post'
+            contents:
+                unique:
+                    extract: 'id'
+                title: 'a.h1,a.h3'
+                description:
+                    filter: '.col-12:last-child .section--sm,.col-9 > .section--sm'
+                    clean: 'Read More'
+                    concat:
+                        separator:
+                            content: '.'
+                link: 'a.h1,a.h3'
+                publicationDate:
+                    filter: 'time'
+                    extract: 'datetime'
+                image: 'a img.img-fluid'

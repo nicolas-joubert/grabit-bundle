@@ -1,0 +1,91 @@
+services:
+  grabit.command.grab:
+    class: NicolasJoubert\GrabitBundle\Command\GrabCommand
+    calls:
+      - [setServices, [
+        '@doctrine.orm.entity_manager', 
+        '@grabit.repository.source',
+        '@grabit.grabber.grabber',
+        '@grabit.manager.extracted_data_manager'
+      ]]
+    tags:
+      - { name: 'console.command', command: 'grabit:grab' }
+
+  grabit.grabber.client.proxy_flaresolverr:
+    class: NicolasJoubert\GrabitBundle\Grabber\Client\ProxyFlaresolverrClient
+    arguments:
+      - '@http_client'
+      - ''
+
+  grabit.grabber.client.proxy_none:
+    class: NicolasJoubert\GrabitBundle\Grabber\Client\ProxyNoneClient
+    arguments:
+      - '@http_client'
+
+  grabit.grabber.client.proxy_squid:
+    class: NicolasJoubert\GrabitBundle\Grabber\Client\ProxySquidClient
+    arguments:
+      - '@http_client'
+      - ''
+
+  _instanceof:
+    NicolasJoubert\GrabitBundle\Grabber\Client\ClientInterface:
+      tags: { name: grabit.grabber.client }
+
+  grabit.grabber.client.client_handler:
+    class: NicolasJoubert\GrabitBundle\Grabber\Client\ClientHandler
+    calls:
+      - [addClients, [!tagged grabit.grabber.client]]
+
+  grabit.grabber.grabber:
+    class: NicolasJoubert\GrabitBundle\Grabber\Grabber
+    arguments:
+      - '@grabit.repository.extracted_data'
+      - '%grabit.dto.grabbed.class%'
+      - '@grabit.validator.validator'
+      - '@grabit.grabber.template'
+      - '@grabit.grabber.client.client_handler'
+
+  grabit.grabber.template:
+    class: NicolasJoubert\GrabitBundle\Grabber\Template
+    arguments:
+      - '@grabit.repository.template'
+      - []
+
+  grabit.manager.extracted_data_manager:
+    class: NicolasJoubert\GrabitBundle\Manager\ExtractedDataManager
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '%grabit.model.extracted_data.class%'
+      - '@grabit.validator.validator'
+
+  grabit.repository.extracted_data:
+    class: NicolasJoubert\GrabitBundle\Repository\ExtractedDataRepository
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '%grabit.model.extracted_data.class%'
+
+  grabit.repository.source:
+    class: NicolasJoubert\GrabitBundle\Repository\SourceRepository
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '%grabit.model.source.class%'
+
+  grabit.repository.template:
+    class: NicolasJoubert\GrabitBundle\Repository\TemplateRepository
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '%grabit.model.template.class%'
+
+  grabit.validator.validator:
+    class: NicolasJoubert\GrabitBundle\Validator\Validator
+    arguments:
+      - '@validator'
+
+  grabit.type_mapper.grabit_type_mapper:
+    class: NicolasJoubert\GrabitBundle\TypeMapper\GrabitTypeMapper
+    decorates: 'dunglas_doctrine_json_odm.type_mapper'
+    decoration_on_invalid: null
+    arguments:
+      - '@.inner'
+      - '%grabit.dto.grabbed.class%'

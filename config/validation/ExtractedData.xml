@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
+    <class name="NicolasJoubert\GrabitBundle\Model\ExtractedData">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">
+                <value>source</value>
+                <value>uniqueContentId</value>
+            </option>
+            <option name="message">ExtractedData already exists for source &amp; uniqueContentId</option>
+            <option name="errorPath">uniqueContentId</option>
+        </constraint>
+        <property name="source">
+            <constraint name="NotNull" />
+        </property>
+        <property name="uniqueContentId">
+            <constraint name="NotBlank" />
+        </property>
+        <property name="content">
+            <constraint name="NotBlank" />
+        </property>
+    </class>
+</constraint-mapping>
