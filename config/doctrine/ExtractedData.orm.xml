@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <mapped-superclass name="NicolasJoubert\GrabitBundle\Entity\ExtractedData" table="grabit_extracted_data">
+        <indexes>
+            <index name="idx_source" columns="source_id" />
+            <index name="idx_source_created_at_id" columns="created_at,id" />
+            <index name="idx_source_published_at_created_at" columns="published_at,created_at" />
+        </indexes>
+        <unique-constraints>
+            <unique-constraint name="unique_source_unique_content_id" columns="source_id,unique_content_id" />
+        </unique-constraints>
+
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <many-to-one field="source" target-entity="NicolasJoubert\GrabitBundle\Model\SourceInterface" inversed-by="extractedDatas">
+            <join-column name="source_id" referenced-column-name="id" nullable="false" />
+        </many-to-one>
+        <field name="uniqueContentId" column="unique_content_id" type="string" length="255" />
+        <field name="content" column="content" type="json_document" nullable="true" />
+        <field name="createdAt" column="created_at" type="datetime" />
+        <field name="publishedAt" column="published_at" type="datetime" nullable="true" />
+    </mapped-superclass>
+</doctrine-mapping>

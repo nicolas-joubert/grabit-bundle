@@ -46,7 +46,6 @@
     "phpstan/phpstan": "*",
     "phpstan/phpstan-doctrine": "*",
     "phpstan/phpstan-symfony": "*",
-    "phpunit/phpunit": "<10.0",
     "rector/rector": "*"
   },
   "suggest": {
@@ -54,6 +53,7 @@
   "config": {
     "allow-plugins": {
       "php-http/discovery": true,
+      "phpstan/extension-installer": true,
       "symfony/flex": true,
       "symfony/runtime": true
     },
