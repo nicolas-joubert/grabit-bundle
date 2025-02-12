@@ -14,7 +14,15 @@ namespace NicolasJoubert\GrabitBundle\Model;
  *     'content'?: string,
  *     'clean'?: string,
  *     'json'?: string,
- *     'concat'?: array{
+ *     'concat'?: array<string, array{
+ *         'type'?: string,
+ *         'filter': string,
+ *         'extract'?: string,
+ *         'content'?: string,
+ *         'clean'?: string,
+ *         'json'?: string,
+ *     }>,
+ *     'fallback'?: array{
  *         'type'?: string,
  *         'filter': string,
  *         'extract'?: string,
