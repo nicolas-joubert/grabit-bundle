@@ -1,4 +1,4 @@
-<img src="https://github.com/nicolas-joubert/grabit-bundle/assets/banner.jpeg" alt="grab it" />
+<img src="https://github.com/nicolas-joubert/grabit-bundle/blob/main/assets/banner.jpeg" alt="grab it" />
 
 # GrabitBundle
 

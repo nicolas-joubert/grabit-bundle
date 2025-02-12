@@ -28,9 +28,8 @@ grabit:
                 description:
                     filter: '.col-12:last-child .section--sm,.col-9 > .section--sm'
                     clean: 'Read More'
-                    concat:
-                        separator:
-                            content: '.'
+                    fallback:
+                        content: '.'
                 link: 'a.h1,a.h3'
                 publicationDate:
                     filter: 'time'

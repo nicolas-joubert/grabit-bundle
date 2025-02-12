@@ -215,10 +215,10 @@ class Grabber
             if (!empty($value['json']) && !empty($content)) {
                 /** @var array<string, mixed> $json */
                 $json = json_decode($content, true);
-                foreach (explode('.', $value['json']) as $key) {
+                foreach (explode('.', $value['json']) as $jsonKey) {
                     /** @var array<string, mixed> $json */
-                    if (isset($json[$key])) {
-                        $json = $json[$key];
+                    if (isset($json[$jsonKey])) {
+                        $json = $json[$jsonKey];
                     }
                 }
                 $content = is_string($json) ? $json : '';
@@ -233,6 +233,10 @@ class Grabber
             foreach ($value['concat'] as $concatKey => $concatValue) {
                 $content .= $this->processContent($node, $concatKey, $concatValue);
             }
+        }
+
+        if (empty($content) && isset($value['fallback'])) {
+            $content = $this->processContent($node, $key, $value['fallback']);
         }
 
         return $content;
