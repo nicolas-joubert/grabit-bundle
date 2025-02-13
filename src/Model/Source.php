@@ -238,9 +238,6 @@ abstract class Source implements \Stringable, SourceInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, ExtractedDataInterface>
-     */
     public function getExtractedDatas(): Collection
     {
         return $this->extractedDatas;

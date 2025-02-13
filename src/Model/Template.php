@@ -55,17 +55,11 @@ abstract class Template implements \Stringable, TemplateInterface
         return $this;
     }
 
-    /**
-     * @return ?Configuration
-     */
     public function getConfiguration(): ?array
     {
         return $this->configuration;
     }
 
-    /**
-     * @param ?Configuration $configuration
-     */
     public function setConfiguration(?array $configuration): static
     {
         $this->configuration = $configuration;
