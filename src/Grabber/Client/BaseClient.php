@@ -25,7 +25,7 @@ abstract class BaseClient implements ClientInterface
         $content = $this->getClientResultContent($url, $source);
 
         if ($source->isJsonResult()) {
-            $content = (new Serializer([new ObjectNormalizer()], [new XmlEncoder()]))
+            $content = new Serializer([new ObjectNormalizer()], [new XmlEncoder()])
                 ->encode($this->getArrayFromJson($content), 'xml')
             ;
         }
