@@ -30,7 +30,7 @@ class Validator
             }
 
             // @phpstan-ignore argument.type
-            throw new ValidationException((new \ReflectionClass($object))->getShortName(), $errors);
+            throw new ValidationException(new \ReflectionClass($object)->getShortName(), $errors);
         }
     }
 }

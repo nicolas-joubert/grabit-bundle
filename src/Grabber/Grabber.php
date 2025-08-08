@@ -192,7 +192,7 @@ class Grabber
         } else {
             if (!empty($value['content'])) {
                 $content = 'now' === $value['content']
-                    ? (new \DateTime())->format('c')
+                    ? new \DateTime()->format('c')
                     : $value['content'];
             } elseif ('link' === $value['type']) {
                 $content = $currentNode->link()->getUri();
@@ -209,7 +209,7 @@ class Grabber
             }
 
             if ('timestamp' === $value['type']) {
-                $content = (new \DateTime())->setTimestamp((int) $content)->format('c');
+                $content = new \DateTime()->setTimestamp((int) $content)->format('c');
             }
 
             if (!empty($value['json']) && !empty($content)) {

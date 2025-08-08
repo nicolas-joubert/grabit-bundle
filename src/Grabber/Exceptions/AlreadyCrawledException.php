@@ -11,7 +11,7 @@ class AlreadyCrawledException extends \Exception
      */
     public function __construct(private readonly array $grabbeds)
     {
-        parent::__construct('', 200, null);
+        parent::__construct('', 200);
     }
 
     /**

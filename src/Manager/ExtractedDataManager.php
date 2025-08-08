@@ -29,7 +29,7 @@ class ExtractedDataManager
      */
     public function createWithGrabbed(GrabbedInterface $grabbed, SourceInterface $source): void
     {
-        $extractedData = (new $this->extractedDataClassName())
+        $extractedData = new $this->extractedDataClassName()
             ->setSource($source)
             ->setUniqueContentId($grabbed->getUnique())
             ->setContent($grabbed)
