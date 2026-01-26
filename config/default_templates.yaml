@@ -35,3 +35,75 @@ grabit:
                     filter: 'time'
                     extract: 'datetime'
                 image: 'a img.img-fluid'
+        ticketmaster_api: # https://app.ticketmaster.com/discovery/v2/events.json?locale=[LOCALE]&venueId=[API_KEY]
+            container: '_embedded>events>*'
+            contents:
+                unique:
+                    type: 'text'
+                    filter: 'url'
+                title: 'name'
+                description:
+                    filter: 'description'
+                    fallback:
+                        content: '.'
+                link:
+                    type: 'text'
+                    filter: 'url'
+                publicationDate:
+                    filter: 'sales public startDateTime'
+                    fallback:
+                        content: 'now'
+                image:
+                    type: 'text'
+                    filter: 'images url'
+        francebillet: # https://www.francebillet.com/city/[CITY]/venue/[PLACE]/?pnum=[PAGE]
+            container: '.js-load-event-list .listing-container'
+            contents:
+                unique:
+                    filter: '.event-listing-info'
+                    extract: 'data-event-id'
+                title: 'h2'
+                description:
+                    filter: '.event-listing-date'
+                    extract: 'datetime'
+                link: 'a.listing-button'
+                publicationDate:
+                    filter: 'script[type="application/ld+json"]'
+                    json: 'offers.validFrom'
+                    fallback:
+                        content: 'now'
+                image:
+                    type: 'text'
+                    filter: 'script[type="application/ld+json"]'
+                    json: 'image.0'
+        php: # https://www.php.net/ChangeLog-<VERSION>.php
+            container: 'section.version'
+            contents:
+                unique:
+                    extract: 'id'
+                title: 'h3'
+                description: 'ul'
+                link:
+                    type: 'current_url'
+                    concat:
+                        - type: 'text'
+                          content: '#'
+                        - type: 'text'
+                          extract: 'id'
+                publicationDate:
+                    filter: 'time.releasedate'
+                    extract: 'datetime'
+        github_release: # https://github.com/[OWNER]/[REPOSITORY]/releases
+            container: '#repo-content-pjax-container section'
+            contents:
+                unique:
+                    extract: 'aria-labelledby'
+                title: 'h2'
+                description:
+                    filter: '.markdown-body'
+                    fallback:
+                        content: '.'
+                link: 'a.Link--primary'
+                publicationDate:
+                    filter: 'relative-time'
+                    extract: 'datetime'
