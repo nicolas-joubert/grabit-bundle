@@ -105,7 +105,7 @@ class Grabber
     protected function crawlTemplate(
         Crawler $crawler,
         array $templateConfiguration,
-        null|array|string $uniqueContentIds,
+        array|string|null $uniqueContentIds,
         bool $allowEmptyContent = false,
     ): array {
         try {
@@ -120,7 +120,11 @@ class Grabber
                     try {
                         $content = $this->processContent($node, $key, $value);
                     } catch (\InvalidArgumentException $e) {
-                        throw new CrawlerException(['Item number' => $i, 'Key' => sprintf('%s (%s)', $key, is_array($value) ? print_r($value, true) : $value), 'HtmlContent' => $node->html()], $e->getMessage(), $crawler);
+                        throw new CrawlerException([
+                            'Item number' => $i,
+                            'Key' => sprintf('%s (%s)', $key, is_array($value) ? print_r($value, true) : $value),
+                            'HtmlContent' => $node->html(),
+                        ], $e->getMessage(), $crawler, 0, $e);
                     }
 
                     if (null !== $content) {
@@ -131,7 +135,10 @@ class Grabber
                 try {
                     $grabbed = $this->transformToGrabbed($contents);
                 } catch (ValidationException $e) {
-                    throw new CrawlerException(['Item number' => $i, 'HtmlContent' => $node->html()], $e->getMessage(), $crawler);
+                    throw new CrawlerException([
+                        'Item number' => $i,
+                        'HtmlContent' => $node->html(),
+                    ], $e->getMessage(), $crawler, 0, $e);
                 }
 
                 if (in_array($grabbed->getUnique(), $crawlUniqueContentIds)) {
@@ -156,7 +163,10 @@ class Grabber
 
             return $grabbeds;
         } catch (PartialDenormalizationException $e) {
-            throw new CrawlerException(['Messages' => implode(',', array_map(fn ($exception): string => $exception->getMessage(), $e->getErrors())), 'Data' => $e->getData()], 'Denormalization Error', $crawler);
+            throw new CrawlerException([
+                'Messages' => implode(',', array_map(fn ($exception): string => $exception->getMessage(), $e->getErrors())),
+                'Data' => $e->getData(),
+            ], 'Denormalization Error', $crawler, 0, $e);
         }
     }
 
