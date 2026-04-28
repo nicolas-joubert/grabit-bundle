@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NicolasJoubert\GrabitBundle\Grabber\Client;
 
 use NicolasJoubert\GrabitBundle\Model\SourceInterface;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NicolasJoubert\GrabitBundle\Repository;
 
 use Doctrine\Persistence\ObjectRepository;

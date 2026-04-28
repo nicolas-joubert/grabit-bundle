@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NicolasJoubert\GrabitBundle\Model;
 
 use NicolasJoubert\GrabitBundle\Dto\GrabbedInterface;
