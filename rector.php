@@ -16,7 +16,7 @@ return RectorConfig::configure()
     ->withPreparedSets(deadCode: true, codeQuality: true, doctrineCodeQuality: true, symfonyCodeQuality: true)
     ->withAttributesSets(symfony: true, doctrine: true)
     ->withSets([
-        LevelSetList::UP_TO_PHP_83,
+        LevelSetList::UP_TO_PHP_84,
     ])
     ->withSkip([
         StringClassNameToClassConstantRector::class => [
