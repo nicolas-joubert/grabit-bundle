@@ -113,7 +113,7 @@ class Grabber
     protected function crawlTemplate(
         Crawler $crawler,
         array $templateConfiguration,
-        null|array|string $uniqueContentIds,
+        array|string|null $uniqueContentIds,
         bool $allowEmptyContent = false,
     ): array {
         try {
