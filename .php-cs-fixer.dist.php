@@ -6,6 +6,8 @@ $finder = (new PhpCsFixer\Finder())
     ->notPath('DependencyInjection/Configuration.php')
     // ignore 'fully_qualified_strict_types, single_line_after_imports' rules
     ->notPath('config/bundles.php')
+    // ignore files created by recipes
+    ->notPath('src/Kernel.php')
 ;
 
 return (new PhpCsFixer\Config())

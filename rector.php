@@ -22,5 +22,7 @@ return RectorConfig::configure()
         StringClassNameToClassConstantRector::class => [
             __DIR__.'/src/DependencyInjection/Configuration.php',
         ],
+        // ignore files created by recipes
+        __DIR__.'/src/Kernel.php',
     ])
 ;
