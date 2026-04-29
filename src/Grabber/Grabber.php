@@ -66,10 +66,18 @@ class Grabber
                 : $this->getUniqueContentIdsForSource($source);
             $allowEmptyContent = false;
             foreach ($source->getUrls() as $this->currentUrl) {
-                $crawler = new Crawler(
-                    $this->clientHandler->getClient($source->getProxy())->getUrlContent($this->currentUrl, $source),
-                    explode('?', $this->currentUrl)[0]
-                );
+                $content = $this->clientHandler
+                    ->getClient($source->getProxy())
+                    ->getUrlContent($this->currentUrl, $source)
+                ;
+                if (null !== $content && [] !== $templateConfiguration['content_replace']) {
+                    $content = str_replace(
+                        array_keys($templateConfiguration['content_replace']),
+                        array_values($templateConfiguration['content_replace']),
+                        $content
+                    );
+                }
+                $crawler = new Crawler($content, explode('?', $this->currentUrl)[0]);
 
                 try {
                     $itemsForUrl = $this->crawlTemplate($crawler, $templateConfiguration, $uniqueContentIds, $allowEmptyContent);
