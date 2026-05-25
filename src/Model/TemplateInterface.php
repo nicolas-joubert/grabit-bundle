@@ -6,7 +6,7 @@ namespace NicolasJoubert\GrabitBundle\Model;
 
 /**
  * @phpstan-type Configuration array{
- *     'content_replace': array<string, string>,
+ *     'content_replace'?: array<string, string>,
  *     'container': string,
  *     'contents': array<string, ConfigurationContent|string>,
  * }

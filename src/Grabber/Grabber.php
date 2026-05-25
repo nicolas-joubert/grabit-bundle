@@ -201,14 +201,14 @@ class Grabber
         }
 
         $currentNode = $node;
-        if (!empty($value['filter'])) {
+        if (isset($value['filter']) && ('' !== $value['filter'] && '0' !== $value['filter'])) {
             $currentNode = $currentNode->filter($value['filter']);
         }
 
         if (0 === $currentNode->count()) {
             $content = '';
         } else {
-            if (!empty($value['content'])) {
+            if (isset($value['content']) && ('' !== $value['content'] && '0' !== $value['content'])) {
                 $content = 'now' === $value['content']
                     ? new \DateTime()->format('c')
                     : $value['content'];
@@ -216,7 +216,7 @@ class Grabber
                 $content = $currentNode->link()->getUri();
             } elseif ('image' === $value['type']) {
                 $content = $currentNode->image()->getUri();
-            } elseif (!empty($value['extract'])) {
+            } elseif (isset($value['extract']) && ('' !== $value['extract'] && '0' !== $value['extract'])) {
                 $content = $currentNode->attr($value['extract']);
             } elseif ('text' === $value['type']) {
                 $content = $currentNode->text();
@@ -230,7 +230,7 @@ class Grabber
                 $content = new \DateTime()->setTimestamp((int) $content)->format('c');
             }
 
-            if (!empty($value['json']) && !empty($content)) {
+            if (isset($value['json']) && ('' !== $value['json'] && '0' !== $value['json']) && !empty($content)) {
                 /** @var array<string, mixed> $json */
                 $json = json_decode($content, true);
                 foreach (explode('.', $value['json']) as $jsonKey) {
@@ -242,7 +242,7 @@ class Grabber
                 $content = is_string($json) ? $json : '';
             }
 
-            if (!empty($value['clean']) && !empty($content)) {
+            if (isset($value['clean']) && ('' !== $value['clean'] && '0' !== $value['clean']) && !empty($content)) {
                 $content = str_replace($value['clean'], '', $content);
             }
         }
