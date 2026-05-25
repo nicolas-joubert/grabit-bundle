@@ -15,10 +15,13 @@ grabit:
             contents:
                 unique:
                     extract: 'id'
-                title: 'h2'
-                description: '.ChangelogItem__Text'
-                link: '.ChangelogItem__Version'
-                publicationDate: '.ChangelogItem__Date span'
+                title:
+                    filter: 'h2'
+                    fallback:
+                        content: '.'
+                description: 'div:first-child>div'
+                link: 'div:first-child>a'
+                publicationDate: 'div:first-child>div'
         sylius_blog: # https://sylius.com/blog/
             container: 'article.tease-post'
             contents:
