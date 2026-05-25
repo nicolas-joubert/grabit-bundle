@@ -70,7 +70,7 @@ class Grabber
                     ->getClient($source->getProxy())
                     ->getUrlContent($this->currentUrl, $source)
                 ;
-                if (null !== $content && [] !== $templateConfiguration['content_replace']) {
+                if (null !== $content && [] !== ($templateConfiguration['content_replace'] ?? [])) {
                     $content = str_replace(
                         array_keys($templateConfiguration['content_replace']),
                         array_values($templateConfiguration['content_replace']),
