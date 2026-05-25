@@ -6,17 +6,17 @@ use Rector\Set\ValueObject\LevelSetList;
 use Rector\ValueObject\PhpVersion;
 
 return RectorConfig::configure()
-    ->withPhpVersion(PhpVersion::PHP_84)
+    ->withPhpVersion(PhpVersion::PHP_85)
     ->withPaths([
         __DIR__.'/src',
     ])
-    ->withPhpSets(php84: true)
+    ->withPhpSets(php85: true)
     // here we can define, what prepared sets of rules will be applied
     ->withComposerBased(symfony: true)
     ->withPreparedSets(deadCode: true, codeQuality: true, doctrineCodeQuality: true, symfonyCodeQuality: true)
     ->withAttributesSets(symfony: true, doctrine: true)
     ->withSets([
-        LevelSetList::UP_TO_PHP_84,
+        LevelSetList::UP_TO_PHP_85,
     ])
     ->withSkip([
         StringClassNameToClassConstantRector::class => [

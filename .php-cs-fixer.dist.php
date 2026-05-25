@@ -15,7 +15,7 @@ return (new PhpCsFixer\Config())
         '@Symfony' => true,
         '@PhpCsFixer' => true,
         '@DoctrineAnnotation' => true,
-        '@PHP8x4Migration' => true,
+        '@PHP8x5Migration' => true,
     ])
     ->setFinder($finder)
 ;
