@@ -99,8 +99,7 @@ grabit:
         github_release: # https://github.com/[OWNER]/[REPOSITORY]/releases
             container: '#repo-content-pjax-container section'
             contents:
-                unique:
-                    extract: 'aria-labelledby'
+                unique: 'a[data-hovercard-type="commit"] code'
                 title: 'h2'
                 description:
                     filter: '.markdown-body'
