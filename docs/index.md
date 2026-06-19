@@ -110,10 +110,18 @@ Then, run the command to grab the source:
 bin/console grabit:grab
 ```
 
+By default, every enabled source is processed. Use the `--source_id` option to grab a
+single source (useful to test a new source or re-run a disabled one):
+
+```bash
+bin/console grabit:grab --source_id=1
+```
+
 So, data will be stored in grabit_extracted_data table using Grabbed Dto.
 
 ## Advanced Usage
 
+- [Source](advanced/source.md)
 - [Headers](advanced/headers.md)
 - [Templates](advanced/templates.md)
 - [Proxies](advanced/proxies.md)
