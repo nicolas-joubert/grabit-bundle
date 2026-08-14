@@ -18,7 +18,7 @@ class GrabitTypeMapper implements TypeMapperInterface
     }
 
     /**
-     * @return class-string|string
+     * @phpstan-return class-string|string
      */
     public function getClassByType(string $type): string
     {
