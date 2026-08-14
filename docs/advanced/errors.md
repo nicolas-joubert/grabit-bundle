@@ -50,6 +50,64 @@ The grabbing pipeline raises a small set of dedicated exceptions
 `GrabException` and `ValidationException` are recorded against the source as described
 above. `AlreadyCrawledException` is handled internally and never surfaces as an error.
 
+## Events
+
+Two events are dispatched by the `grabit:grab` command so you can react to failures
+(send a mail, ping a webhook, log to a dedicated channel, …):
+
+| Event                                                          | When it is dispatched                                                                          |
+|----------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| `NicolasJoubert\GrabitBundle\Event\SourceErrorEvent`           | Each time an error is recorded on a source, right after `countError`/`lastError` are persisted. |
+| `NicolasJoubert\GrabitBundle\Event\SourceDisabledEvent`        | Only when that error made the source cross its `maxNumberError` threshold and be disabled.     |
+
+A run which disables a source therefore dispatches **both** events, `SourceErrorEvent`
+first. `SourceDisabledEvent` is dispatched on the transition only: re-running an
+already-disabled source (with `--source_id`) still dispatches `SourceErrorEvent`, but not
+`SourceDisabledEvent`.
+
+Both events extend `AbstractSourceEvent` and expose:
+
+| Method        | Description                                                            |
+|---------------|------------------------------------------------------------------------|
+| `getSource()` | The `SourceInterface` being processed, already updated and flushed.    |
+| `getReason()` | Message of the error which triggered the event (same as `lastError`).  |
+
+```php
+// src/EventListener/GrabitErrorListener.php
+
+namespace App\EventListener;
+
+use NicolasJoubert\GrabitBundle\Event\SourceDisabledEvent;
+use NicolasJoubert\GrabitBundle\Event\SourceErrorEvent;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+final readonly class GrabitErrorListener
+{
+    public function __construct(private LoggerInterface $logger) {}
+
+    #[AsEventListener]
+    public function onError(SourceErrorEvent $event): void
+    {
+        $this->logger->warning('Grab failed for source "{label}": {reason}', [
+            'label' => $event->getSource()->getLabel(),
+            'reason' => $event->getReason(),
+        ]);
+    }
+
+    #[AsEventListener]
+    public function onDisabled(SourceDisabledEvent $event): void
+    {
+        $source = $event->getSource();
+
+        $this->logger->error('Source "{label}" has been disabled after {count} errors', [
+            'label' => $source->getLabel(),
+            'count' => $source->getCountError(),
+        ]);
+    }
+}
+```
+
 ## Inspecting and recovering a failed source
 
 ```sql

@@ -6,7 +6,8 @@ services:
         '@doctrine.orm.entity_manager', 
         '@grabit.repository.source',
         '@grabit.grabber.grabber',
-        '@grabit.manager.extracted_data_manager'
+        '@grabit.manager.extracted_data_manager',
+        '@event_dispatcher'
       ]]
     tags:
       - { name: 'console.command', command: 'grabit:grab' }

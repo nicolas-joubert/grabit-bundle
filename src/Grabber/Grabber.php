@@ -254,7 +254,7 @@ class Grabber
         }
 
         if (empty($content) && isset($value['fallback'])) {
-            $content = $this->processContent($node, $key, $value['fallback']);
+            return $this->processContent($node, $key, $value['fallback']);
         }
 
         return $content;

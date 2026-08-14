@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace NicolasJoubert\GrabitBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use NicolasJoubert\GrabitBundle\Event\SourceDisabledEvent;
+use NicolasJoubert\GrabitBundle\Event\SourceErrorEvent;
 use NicolasJoubert\GrabitBundle\Grabber\Exceptions\GrabException;
 use NicolasJoubert\GrabitBundle\Grabber\Exceptions\ValidationException;
 use NicolasJoubert\GrabitBundle\Grabber\Grabber;
@@ -16,6 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class GrabCommand extends Command
 {
@@ -26,17 +29,20 @@ class GrabCommand extends Command
     private SourceRepositoryInterface $sourceRepository;
     private Grabber $grabber;
     private ExtractedDataManager $extractedDataManager;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function setServices(
         EntityManagerInterface $em,
         SourceRepositoryInterface $sourceRepository,
         Grabber $grabber,
         ExtractedDataManager $extractedDataManager,
+        EventDispatcherInterface $eventDispatcher,
     ): void {
         $this->em = $em;
         $this->sourceRepository = $sourceRepository;
         $this->grabber = $grabber;
         $this->extractedDataManager = $extractedDataManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     #[\Override]
@@ -134,10 +140,19 @@ class GrabCommand extends Command
             ->setCountError($source->getCountError() + 1)
             ->setLastError($reason)
         ;
-        if ($source->getCountError() > $source->getMaxNumberError()) {
+
+        $justDisabled = $source->isEnabled() && $source->getCountError() > $source->getMaxNumberError();
+        if ($justDisabled) {
             $source->setEnabled(false);
         }
+
         $this->em->flush();
+
+        $this->eventDispatcher->dispatch(new SourceErrorEvent($source, $reason));
+
+        if ($justDisabled) {
+            $this->eventDispatcher->dispatch(new SourceDisabledEvent($source, $reason));
+        }
     }
 
     private function resetCountError(SourceInterface $source): void
