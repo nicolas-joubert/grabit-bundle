@@ -67,7 +67,7 @@ grabit:
                     extract: 'data-event-id'
                 title: 'h2'
                 description:
-                    filter: '.event-listing-date'
+                    filter: 'time'
                     extract: 'datetime'
                 link: 'a.listing-button'
                 publicationDate:
