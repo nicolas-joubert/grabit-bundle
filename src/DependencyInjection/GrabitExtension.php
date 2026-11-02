@@ -24,14 +24,14 @@ class GrabitExtension extends ConfigurableExtension
      */
     public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(\dirname(__DIR__).'/../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.yaml');
 
         // Templates
         /** @var array{'grabit': array{'templates': array<string, TemplateConfiguration>}} $defaultTemplates */
         $defaultTemplates = Yaml::parse(
             // @phpstan-ignore argument.type
-            file_get_contents(\dirname(__DIR__).'/../config/default_templates.yaml')
+            file_get_contents(__DIR__.'/../../config/default_templates.yaml')
         );
 
         $mergedConfig['templates'] = array_merge(
